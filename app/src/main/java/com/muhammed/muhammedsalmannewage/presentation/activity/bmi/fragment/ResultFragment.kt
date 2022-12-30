@@ -1,9 +1,10 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment
 
-import androidx.fragment.app.Fragment
 import com.muhammed.muhammedsalmannewage.databinding.FragmentResultBinding
 import com.muhammed.muhammedsalmannewage.presentation.common.fragment.ViewBindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
     override fun initBinding(): FragmentResultBinding {

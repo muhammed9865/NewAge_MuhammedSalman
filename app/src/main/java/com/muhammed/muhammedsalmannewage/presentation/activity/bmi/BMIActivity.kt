@@ -6,7 +6,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.muhammed.muhammedsalmannewage.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BMIActivity : AppCompatActivity() {
 
     private val navController: NavController by lazy {
