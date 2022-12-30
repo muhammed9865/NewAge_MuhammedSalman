@@ -4,6 +4,7 @@ import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIRequest
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIResult
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.WeightClass
 import javax.inject.Inject
+import kotlin.math.pow
 
 class CalculateBMIUseCase @Inject constructor() {
 
@@ -16,11 +17,14 @@ class CalculateBMIUseCase @Inject constructor() {
             bmi = bmi
         )
     }
-
+    // Calculation -> bmi = weight / (heightInMeters)^2
     private fun calculateBMI(bmiRequest: BMIRequest): Float {
         return with(bmiRequest) {
             val heightInMeters = height / 100f
-            weight / heightInMeters
+            val bmi = weight / heightInMeters.pow(2)
+            // Taking the first 5 digits of the number
+            val bmiTrimmed = bmi.toString().take(5).toFloat()
+            bmiTrimmed
         }
     }
 
