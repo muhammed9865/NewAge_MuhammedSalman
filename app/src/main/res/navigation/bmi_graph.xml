@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bmi_graph"
+    app:startDestination="@id/calculatorFragment">
+
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.CalculatorFragment"
+        android:label="CalculatorFragment" >
+        <action
+            android:id="@+id/action_calculatorFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/calculatorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.ResultFragment"
+        android:label="ResultFragment" />
+</navigation>
