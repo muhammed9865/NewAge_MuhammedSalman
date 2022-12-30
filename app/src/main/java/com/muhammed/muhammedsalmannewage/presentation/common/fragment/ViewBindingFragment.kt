@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 // Used to extract to routine of initializing the binding on each fragment
 // And destroy it onFragmentDestroy
-@AndroidEntryPoint
 abstract class ViewBindingFragment <T : ViewBinding> : Fragment() {
     private var _binding: T? = null
     protected val binding get() = _binding!!
