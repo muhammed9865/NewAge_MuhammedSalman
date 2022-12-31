@@ -6,8 +6,8 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.CalculatorFragment"
-        android:label="CalculatorFragment" >
+        android:name="com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.calculator.CalculatorFragment"
+        android:label="@string/fragment_bmi_details_label" >
         <action
             android:id="@+id/action_calculatorFragment_to_resultFragment"
             app:destination="@id/resultFragment"
@@ -16,6 +16,6 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.ResultFragment"
-        android:label="ResultFragment" />
+        android:name="com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.result.ResultFragment"
+        android:label="@string/fragment_bmi_results_label" />
 </navigation>
