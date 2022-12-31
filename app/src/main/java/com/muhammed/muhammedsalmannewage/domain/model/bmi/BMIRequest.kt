@@ -5,11 +5,11 @@ package com.muhammed.muhammedsalmannewage.domain.model.bmi
 data class BMIRequest(
     val weight: Int,
     val height: Int,
-    val age: Int,
     val gender: Gender
 )
 
 enum class Gender {
     MALE,
-    FEMALE
+    FEMALE,
+    UNDEFINED
 }
