@@ -16,4 +16,6 @@
     <dimen name="calc_btn_mar_horiz">15dp</dimen>
     <dimen name="calc_btn_mar_top">20dp</dimen>
     <dimen name="name_input_box_padding">15dp</dimen>
+    
+    <dimen name="metric_text_size">16sp</dimen>
 </resources>

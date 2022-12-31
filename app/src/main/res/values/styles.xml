@@ -47,4 +47,19 @@
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/poppins</item>
     </style>
+    
+    <style name="Metric">
+        <item name="fontFamily">@font/poppins</item>
+        <item name="android:textSize">@dimen/metric_text_size</item>
+    </style>
+
+    <style name="Metric.Selected">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Metric.UnSelected">
+        <item name="android:textColor">@color/grey_alpha_80</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>
