@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Headline1.">
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:lineHeight">@dimen/h1_line_height</item>
+        <item name="android:letterSpacing">-0.02</item>
+    </style>
+
+</resources>

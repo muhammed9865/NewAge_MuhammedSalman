@@ -10,4 +10,7 @@
     
     <color name="blue">#19779F</color>
     <color name="bright_green">#31CBA5</color>
+    <color name="grey_alpha_80">#C0C0C0</color>
+
+    <color name="background_color">#E5E5E5</color>
 </resources>

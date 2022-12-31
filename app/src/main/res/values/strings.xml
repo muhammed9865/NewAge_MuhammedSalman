@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">MuhammedSalmanNewAge</string>
     <string name="calculate">Calculate</string>
+    <string name="fragment_bmi_details_label">Add BMI Details</string>
+    <string name="fragment_bmi_results_label">BMI Details</string>
+    <string name="details_entry">Enter Personal Detail</string>
+    <string name="name_placeholder">Name</string>
+    <string name="calculate_bmi_msg">Calculate Your Body Mass Index</string>
+    <string name="weight_metric">Weight</string>
+    <string name="height_metric">Height</string>
+    <string name="gender_metric">Gender</string>
 </resources>

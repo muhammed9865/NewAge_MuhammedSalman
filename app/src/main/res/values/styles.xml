@@ -2,16 +2,49 @@
 <resources>
 
     <style name="PrimaryButton">
-        <item name="android:background">@drawable/default_background</item>
+        <item name="android:background">@drawable/default_background_rounded</item>
         <item name="backgroundTint">@null</item>
-        <item name="fontFamily">@font/work_sans_light</item>
+        <item name="fontFamily">@font/work_sans_medium</item>
+        <item name="android:textSize">@dimen/h3_text_size</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="body">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:letterSpacing">-0.02</item>
-        <item name="fontFamily">@font/work_sans_light</item>
+        <item name="fontFamily">@font/work_sans</item>
+    </style>
+    
+    <style name="Headline1">
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textSize">@dimen/h1_text_size</item>
+    </style>
+    <style name="Headline2">
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textSize">@dimen/h2_text_size</item>
     </style>
 
+    <style name="ToolbarTextAppearance" parent="Headline2">
+    </style>
 
+    <style name="PrimaryInputFieldLayout">
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeWidth">0.7dp</item>
+        <item name="android:hint">@string/name_placeholder</item>
+        <item name="hintTextColor">@color/blue</item>
+        <item name="boxStrokeColor">@color/primary_input_field_color_state</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/default_corner_size</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/default_corner_size</item>
+        <item name="boxCornerRadiusTopStart">@dimen/default_corner_size</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/default_corner_size</item>
+    </style>
+
+    <style name="MetricsLabelTextAppearance" parent="Headline2">
+        <item name="android:textSize">@dimen/h3_text_size</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppins</item>
+    </style>
 </resources>
