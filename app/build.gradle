@@ -24,9 +24,13 @@ android {
     buildTypes {
         debug {
             resValue "string", "AD_MOB_APP_ID", CONFIG("ad_mob_app_D")
+            buildConfigField "String", "InterstitialAd_ID", CONFIG("interstitial_ad_id_D")
+            buildConfigField "String", "BannerAd_ID", CONFIG("banner_ad_id_D")
         }
         release {
             resValue "string", "AD_MOB_APP_ID", CONFIG("ad_mob_app_R")
+            buildConfigField "String", "InterstitialAd_ID", CONFIG("interstitial_ad_id_R")
+            buildConfigField "String", "BannerAd_ID", CONFIG("banner_ad_id_R")
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
