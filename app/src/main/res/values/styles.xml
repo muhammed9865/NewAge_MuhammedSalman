@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PrimaryButton">
+        <item name="android:background">@drawable/default_background</item>
+        <item name="backgroundTint">@null</item>
+        <item name="fontFamily">@font/work_sans_light</item>
+    </style>
+
+    <style name="body">
+        <item name="android:textSize">13sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="fontFamily">@font/work_sans_light</item>
+    </style>
+
+
+</resources>
