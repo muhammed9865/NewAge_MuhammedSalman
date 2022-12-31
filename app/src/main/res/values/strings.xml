@@ -9,4 +9,7 @@
     <string name="weight_metric">Weight</string>
     <string name="height_metric">Height</string>
     <string name="gender_metric">Gender</string>
+
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>
