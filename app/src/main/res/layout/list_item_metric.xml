@@ -2,9 +2,9 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/metric_value"
-    android:layout_width="wrap_content"
+    style="@style/Metric.Selected"
     android:layout_height="wrap_content"
     android:layout_gravity="center|top"
-    tools:text="123"
-    android:textAppearance="@style/Metric.UnSelected"
+    android:layout_width="match_parent"
+    tools:text="13"
     android:gravity="center" />

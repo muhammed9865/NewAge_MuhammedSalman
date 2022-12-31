@@ -46,11 +46,14 @@
         <item name="android:textSize">@dimen/h3_text_size</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/poppins</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:alpha">0.7</item>
     </style>
     
     <style name="Metric">
         <item name="fontFamily">@font/poppins</item>
         <item name="android:textSize">@dimen/metric_text_size</item>
+        <item name="android:layout_margin">@dimen/metric_around_space</item>
     </style>
 
     <style name="Metric.Selected">

@@ -45,9 +45,9 @@
             android:id="@+id/name_input_field"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:maxLines="1"
             android:imeOptions="actionGo"
-            android:padding="@dimen/name_input_box_padding"/>
+            android:maxLines="1"
+            android:padding="@dimen/name_input_box_padding" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
@@ -74,7 +74,8 @@
         android:text="@string/weight_metric"
         app:layout_constraintEnd_toStartOf="@+id/height_label"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="@+id/materialCardView"
         app:layout_constraintTop_toTopOf="@+id/window_center_gl" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -94,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/gender_metric"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/materialCardView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/height_label"
         app:layout_constraintTop_toTopOf="@+id/weight_label" />
@@ -109,18 +110,55 @@
         app:layout_constraintTop_toBottomOf="@+id/height_label"
         tools:layout_editor_absoluteX="-16dp">
 
-        <!-- TODO Implement 3 Recyclerviews for metrics -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <include
+                android:id="@+id/weight_selector"
+                layout="@layout/metric_selector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/height_selector"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/height_selector"
+                layout="@layout/metric_selector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/gender_selector"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/weight_selector"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/gender_selector"
+                layout="@layout/metric_selector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/height_selector"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/calculate_btn"
+        style="@style/PrimaryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/calc_btn_mar_horiz"
         android:layout_marginTop="@dimen/calc_btn_mar_top"
         android:text="@string/calculate"
-        style="@style/PrimaryButton"
         app:layout_constraintEnd_toEndOf="@+id/materialCardView"
         app:layout_constraintStart_toStartOf="@+id/materialCardView"
         app:layout_constraintTop_toBottomOf="@+id/materialCardView" />

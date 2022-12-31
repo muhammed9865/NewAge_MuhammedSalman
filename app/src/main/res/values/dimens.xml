@@ -16,6 +16,11 @@
     <dimen name="calc_btn_mar_horiz">15dp</dimen>
     <dimen name="calc_btn_mar_top">20dp</dimen>
     <dimen name="name_input_box_padding">15dp</dimen>
-    
+
+    <!-- These dims are used with ListItemMetric -->
     <dimen name="metric_text_size">16sp</dimen>
+    <dimen name="metric_around_space">8dp</dimen>
+    <dimen name="selected_metric_indicator_height">3dp</dimen>
+    <dimen name="selected_metric_indicator_width">60dp</dimen>
+    <dimen name="selected_metric_indicator_mar_top">30dp</dimen>
 </resources>
