@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.transition.Slide
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -36,6 +37,7 @@ private const val TAG = "ResultFragment"
 @AndroidEntryPoint
 class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
+    private val viewModel by viewModels<ResultViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     // an Instance to destroy onDestroy
@@ -72,6 +74,17 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         with(binding) {
             bmiRateBtn.setOnClickListener {
                 rateApp()
+            }
+
+            bmiShareBtn.setOnClickListener {
+                val intent = viewModel.takeScreenshot(
+                    view = binding.bmiCard,
+                    saveLocation = requireActivity().cacheDir.absolutePath
+                )
+
+                intent?.let {
+                    startActivity(Intent.createChooser(it, "Share Image"))
+                }
             }
         }
     }
@@ -177,9 +190,11 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         val packageName = requireContext().packageName
         try {
             val uri = Uri.parse("market://details?id=$packageName")
-            startActivity(
-                Intent(Intent.ACTION_VIEW, uri),
-            )
+            val playStorePackageName = "com.android.vending"
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                setPackage(playStorePackageName)
+            }
+            startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             val uri = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
             startActivity(
@@ -188,6 +203,11 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
                     uri
                 ),
             )
+        }
+    }
+    private fun shareResult() {
+        with(binding) {
+
         }
     }
 }
