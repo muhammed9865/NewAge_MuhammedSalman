@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/ads_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/default_banner_ad_bg"
+            >
+
+            <com.google.android.gms.ads.nativead.MediaView
+                android:id="@+id/ad_img"
+                android:layout_width="@dimen/banner_ad_img_size"
+                android:layout_height="@dimen/banner_ad_img_size"
+                android:layout_marginTop="@dimen/banner_ad_img_mar_top"
+                app:layout_constraintBottom_toTopOf="@+id/ad_event_button"
+                app:layout_constraintStart_toStartOf="@+id/ad_event_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ad_headline"
+                style="@style/Headline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ad_img"
+                app:layout_constraintTop_toTopOf="@+id/ad_img"
+                tools:text="Hello America" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ad_body"
+                style="@style/Headline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/ad_img"
+                app:layout_constraintTop_toBottomOf="@+id/ad_headline"
+                tools:text="Hello America" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ad_event_button"
+                style="@style/BannerAdsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/install"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.google.android.gms.ads.nativead.AdChoicesView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.gms.ads.nativead.NativeAdView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
