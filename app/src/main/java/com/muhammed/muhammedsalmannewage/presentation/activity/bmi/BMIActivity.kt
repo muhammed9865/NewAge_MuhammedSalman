@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.muhammed.muhammedsalmannewage.R
@@ -15,7 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BMIActivity : AppCompatActivity() {
+class BMIActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val navController: NavController by lazy {
@@ -29,7 +30,7 @@ class BMIActivity : AppCompatActivity() {
         setContentView(binding.root)
         showSplashFor(SPLASH_DISPLAY_TIME)
         setupToolbarWithNavigation()
-
+        navController.addOnDestinationChangedListener(this)
     }
 
 
@@ -65,8 +66,9 @@ class BMIActivity : AppCompatActivity() {
 
 
     private fun setupToolbarWithNavigation() {
+        val toolbar = binding.bmiToolbar
         NavigationUI.setupWithNavController(
-            binding.bmiToolbar,
+            toolbar,
             navController
         )
     }
@@ -74,5 +76,18 @@ class BMIActivity : AppCompatActivity() {
 
     companion object {
         private const val SPLASH_DISPLAY_TIME = 1000L
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?,
+    ) {
+        when(destination.id) {
+            R.id.resultFragment -> {
+                binding.bmiToolbar.setNavigationIcon(R.drawable.ic_back_arrow)
+
+            }
+        }
     }
 }
