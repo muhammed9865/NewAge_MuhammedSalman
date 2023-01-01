@@ -12,5 +12,8 @@ class MainViewModel @Inject constructor(): ViewModel() {
     // Set by CalculatorFragment after calculation done
     var bmiResult: BMIResult? = null
 
+    // Set by CalculatorFragment
+    var name: String? = null
+
 
 }
