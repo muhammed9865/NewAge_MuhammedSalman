@@ -27,4 +27,6 @@
 
     <dimen name="banner_ad_img_size">60dp</dimen>
     <dimen name="banner_ad_img_mar_top">15dp</dimen>
+    <dimen name="bmi_percentage_fracture_size">40sp</dimen>
+    <dimen name="bmi_header_padding">10dp</dimen>
 </resources>

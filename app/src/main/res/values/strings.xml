@@ -14,4 +14,10 @@
     <string name="female">Female</string>
     <string name="install">INSTALL</string>
     <string name="bmi">BODY MASS INDEX</string>
+    <string name="share">Share</string>
+    <string name="rate">Rate</string>
+
+    <string name="bmi_name_with_type">Hello %s, you are %s</string>
+    <string name="bmi_range">%s BMI range: %.2fkg/m2 - %.2fkg/m2</string>
+    <string name="ponderal_index">Ponderal Index: %.2fkg/m3</string>
 </resources>

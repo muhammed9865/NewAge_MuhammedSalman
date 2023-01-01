@@ -10,15 +10,18 @@ class BMI private constructor (
     val fracture: Int
 ) {
 
+    val integerLength get() = integer.toString().length
     fun asString() = "$integer.$fracture"
 
     fun trimmed(): String {
         return buildString {
             append(integer)
             append('.')
-            append(fracture.toString().take(2))
+            append(fractureTrimmed())
         }
     }
+
+    private fun fractureTrimmed() = fracture.toString().take(2)
 
     companion object {
         fun fromFloat(bmi: Float) : BMI {

@@ -1,11 +1,15 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.result
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.activityViewModels
 import androidx.transition.Slide
 import com.google.android.gms.ads.AdListener
@@ -15,7 +19,11 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.muhammed.muhammedsalmannewage.BuildConfig
+import com.muhammed.muhammedsalmannewage.R
 import com.muhammed.muhammedsalmannewage.databinding.FragmentResultBinding
+import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMI
+import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIResult
+import com.muhammed.muhammedsalmannewage.domain.model.bmi.name
 import com.muhammed.muhammedsalmannewage.presentation.activity.bmi.MainViewModel
 import com.muhammed.muhammedsalmannewage.presentation.common.fragment.ViewBindingFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +58,13 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.bmiResult?.let { Log.d(TAG, "onViewCreated: ${it.bmi.asString()}") }
+        mainViewModel.bmiResult?.let { bmiResult ->
+            displayBMIResult(
+                name = "Muhammed",
+                bmiResult = bmiResult,
+            )
+            Log.d(TAG, "onViewCreated: $bmiResult")
+        }
     }
 
     override fun onDestroyView() {
@@ -61,7 +75,7 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
     /*
         An error occurs on Emulator loading the Ad,
-        Will be tested on a real device if it's working.
+        Works fine on real devices.
      */
     private fun loadAd() {
         // Requirements
@@ -91,6 +105,7 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
     }
 
+    // Note: AdChoicesView will appear when the adUnitId isn't the testing one.
     private fun displayAd(ad: NativeAd) {
         with(binding) {
             val adView = adsBanner
@@ -99,18 +114,18 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
             adView.bodyView = adBody
             adView.mediaView = adImg
             adView.callToActionView = adEventButton
+            adView.adChoicesView = adChoices
 
             // displaying ad details
             // These assets are guaranteed to be available
             adHeadline.text = ad.headline
             adBody.text = ad.body
             adView.mediaView?.mediaContent = ad.mediaContent
+            adView.mediaView?.setImageScaleType(ImageView.ScaleType.CENTER_CROP)
 
             // These assets aren't guaranteed to be available
-            adView.callToActionView?.visibility = if (ad.callToAction == null) View.INVISIBLE else View.VISIBLE
-
-
-
+            adView.callToActionView?.visibility =
+                if (ad.callToAction == null) View.INVISIBLE else View.VISIBLE
 
             // Registering the Ad with the AdView
             adView.setNativeAd(ad)
@@ -118,5 +133,34 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         }
 
 
+    }
+
+    private fun displayBMIResult(name: String, bmiResult: BMIResult) {
+        setBMIResultText(bmiResult.bmi)
+        val weightClass = bmiResult.weightClass
+
+        // Displaying name with WeightClass
+        val nameWithClass = getString(R.string.bmi_name_with_type, name, weightClass.name())
+        binding.bmiNameWithClassTv.text = nameWithClass
+
+        // Displaying BMI range
+        val bmiRange = getString(R.string.bmi_range, weightClass.name(), weightClass.start, weightClass.end)
+        binding.bmiRange.text = bmiRange
+
+        // Displaying Ponderal Index
+        // TODO get the PI index from BMIResult instead of using the bmi itself
+        val pi = getString(R.string.ponderal_index, bmiResult.bmi.asString().toFloat())
+        binding.ponderalIndex.text = pi
+    }
+
+    private fun setBMIResultText(bmi: BMI) {
+        val spannedText = SpannableString(bmi.trimmed())
+        spannedText.setSpan(
+            RelativeSizeSpan(2f),
+            0,
+            bmi.integerLength,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.bmiPercentage.text = spannedText
     }
 }
