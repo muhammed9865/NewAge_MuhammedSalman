@@ -3,15 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/custom_bg_rounded_grad_updown.xml" value="0.2525" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/default_background.xml" value="0.249" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/default_background_rounded.xml" value="0.249" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/default_banner_ad_bg.xml" value="0.2525" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/ic_back_arrow.xml" value="0.249" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/ic_logo.xml" value="0.249" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/number_picker_divider.xml" value="0.2525" />
+        <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/drawable/splash_screen.xml" value="0.22" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/layout/activity_main.xml" value="0.3932291666666667" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/layout/fragment_calculator.xml" value="0.40625" />
-        <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/layout/fragment_result.xml" value="0.3046875" />
+        <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/layout/fragment_result.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/layout/fragment_test.xml" value="0.40625" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/layout/list_item_metric.xml" value="0.40729166666666666" />
         <entry key="..\:/AndroidStudioProjects/MuhammedSalmanNewAge/app/src/main/res/layout/metric_selector.xml" value="0.40625" />

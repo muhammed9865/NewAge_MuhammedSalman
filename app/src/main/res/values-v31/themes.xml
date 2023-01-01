@@ -13,6 +13,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/bmi_logo</item>
+    </style>
+    <style name="Theme.MuhammedSalmanNewAge.Launcher" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/bmi_logo_2</item>
     </style>
 </resources>

@@ -16,7 +16,7 @@
         <activity
             android:name=".presentation.activity.bmi.BMIActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustUnspecified">
+            android:theme="@style/Theme.MuhammedSalmanNewAge.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

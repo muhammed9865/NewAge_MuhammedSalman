@@ -1,10 +1,7 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi
 
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
@@ -12,8 +9,6 @@ import androidx.navigation.ui.NavigationUI
 import com.muhammed.muhammedsalmannewage.R
 import com.muhammed.muhammedsalmannewage.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BMIActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
@@ -27,41 +22,10 @@ class BMIActivity : AppCompatActivity(), NavController.OnDestinationChangedListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_MuhammedSalmanNewAge)
         setContentView(binding.root)
-        showSplashFor(SPLASH_DISPLAY_TIME)
         setupToolbarWithNavigation()
         navController.addOnDestinationChangedListener(this)
-    }
-
-
-    private fun showSplashFor(milli: Long) {
-        with(binding) {
-            lifecycleScope.launch {
-                // Display the splash drawable manually if Build version is below Android 12
-                // Android 12+ displays a customizable splash screen.
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                    toggleSplashVisibility(show = true)
-                    delay(milli)
-                    toggleSplashVisibility(show = false) {
-                        navHostFragmentContainer.visibility = View.VISIBLE
-                    }
-                } else {
-                    navHostFragmentContainer.visibility = View.VISIBLE
-                }
-            }
-        }
-    }
-
-    private fun toggleSplashVisibility(show: Boolean, onFinish: () -> Unit = {}) {
-        val scale = if (show) 1f else 0f
-        val alpha = if (show) 1f else 0f
-        binding.splashImage.animate()
-            .scaleX(scale)
-            .scaleY(scale)
-            .alpha(alpha)
-            .setDuration(500)
-            .withEndAction(onFinish)
-            .start()
     }
 
 
@@ -73,10 +37,6 @@ class BMIActivity : AppCompatActivity(), NavController.OnDestinationChangedListe
         )
     }
 
-
-    companion object {
-        private const val SPLASH_DISPLAY_TIME = 1000L
-    }
 
     override fun onDestinationChanged(
         controller: NavController,

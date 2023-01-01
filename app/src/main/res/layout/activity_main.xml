@@ -18,29 +18,12 @@
         android:background="@drawable/default_background"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/splash_image"
-        android:layout_width="@dimen/splash_image_size"
-        android:layout_height="0dp"
-        android:scaleX="0"
-        android:scaleY="0"
-        android:alpha="0"
-        tools:alpha="1"
-        tools:scaleX="1"
-        tools:scaleY="1"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bmi_logo" />
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
