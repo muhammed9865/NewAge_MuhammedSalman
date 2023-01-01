@@ -94,16 +94,23 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
     private fun displayAd(ad: NativeAd) {
         with(binding) {
             val adView = adsBanner
+            // Setup adViews with layout views
+            adView.headlineView = adHeadline
+            adView.bodyView = adBody
+            adView.mediaView = adImg
+            adView.callToActionView = adEventButton
 
             // displaying ad details
-            // each detail has a corresponding view
+            // These assets are guaranteed to be available
             adHeadline.text = ad.headline
-            adView.headlineView = adHeadline
-
             adBody.text = ad.body
-            adView.bodyView = adBody
+            adView.mediaView?.mediaContent = ad.mediaContent
 
-            adView.mediaView = adImg
+            // These assets aren't guaranteed to be available
+            adView.callToActionView?.visibility = if (ad.callToAction == null) View.INVISIBLE else View.VISIBLE
+
+
+
 
             // Registering the Ad with the AdView
             adView.setNativeAd(ad)
