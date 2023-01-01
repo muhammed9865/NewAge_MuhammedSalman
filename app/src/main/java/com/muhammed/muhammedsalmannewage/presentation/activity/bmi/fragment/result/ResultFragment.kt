@@ -1,5 +1,8 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.result
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -60,10 +63,16 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
         mainViewModel.bmiResult?.let { bmiResult ->
             displayBMIResult(
-                name = "Muhammed",
+                name = mainViewModel.name ?: "",
                 bmiResult = bmiResult,
             )
-            Log.d(TAG, "onViewCreated: $bmiResult")
+        }
+
+        // Action Buttons clicks
+        with(binding) {
+            bmiRateBtn.setOnClickListener {
+                rateApp()
+            }
         }
     }
 
@@ -144,12 +153,12 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         binding.bmiNameWithClassTv.text = nameWithClass
 
         // Displaying BMI range
-        val bmiRange = getString(R.string.bmi_range, weightClass.name(), weightClass.start, weightClass.end)
+        val bmiRange =
+            getString(R.string.bmi_range, weightClass.name(), weightClass.start, weightClass.end)
         binding.bmiRange.text = bmiRange
 
         // Displaying Ponderal Index
-        // TODO get the PI index from BMIResult instead of using the bmi itself
-        val pi = getString(R.string.ponderal_index, bmiResult.bmi.asString().toFloat())
+        val pi = getString(R.string.ponderal_index, bmiResult.pi.pi)
         binding.ponderalIndex.text = pi
     }
 
@@ -162,5 +171,23 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         binding.bmiPercentage.text = spannedText
+    }
+
+    private fun rateApp() {
+        val packageName = requireContext().packageName
+        try {
+            val uri = Uri.parse("market://details?id=$packageName")
+            startActivity(
+                Intent(Intent.ACTION_VIEW, uri),
+            )
+        } catch (e: ActivityNotFoundException) {
+            val uri = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    uri
+                ),
+            )
+        }
     }
 }
