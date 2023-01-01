@@ -1,7 +1,9 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
@@ -25,6 +27,7 @@ class BMIActivity : AppCompatActivity(), NavController.OnDestinationChangedListe
         setTheme(R.style.Theme_MuhammedSalmanNewAge)
         setContentView(binding.root)
         setupToolbarWithNavigation()
+        setStatusBarColor()
         navController.addOnDestinationChangedListener(this)
     }
 
@@ -35,6 +38,12 @@ class BMIActivity : AppCompatActivity(), NavController.OnDestinationChangedListe
             toolbar,
             navController
         )
+    }
+
+    private fun setStatusBarColor() {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
+        window.setBackgroundDrawableResource(R.drawable.default_background)
     }
 
 
