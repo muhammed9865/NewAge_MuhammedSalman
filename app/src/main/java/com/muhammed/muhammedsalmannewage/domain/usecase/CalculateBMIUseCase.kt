@@ -10,32 +10,44 @@ class CalculateBMIUseCase @Inject constructor() {
     operator fun invoke(bmiRequest: BMIRequest): State<BMIResult> {
         val bmi = calculateBMI(bmiRequest)
         val weightClass = calculateWeightClass(bmi)
+        val pi = calculatePonderalIndex(bmiRequest = bmiRequest)
 
         return State.Success(
             data = BMIResult(
                 weightClass = weightClass,
-                bmi = BMI.fromFloat(bmi)
+                bmi = BMI.fromFloat(bmi),
+                pi = pi
             )
         )
     }
 
-    // Calculation -> bmi = weight / (heightInMeters)^2
-    private fun calculateBMI(bmiRequest: BMIRequest): Float {
+    private fun calculatePonderalIndex(bmiRequest: BMIRequest): PonderalIndex {
         return with(bmiRequest) {
             val heightInMeters = height / 100f
-            val bmi = weight / heightInMeters.pow(2)
-            bmi
+            val pi = weight / heightInMeters.pow(3)
+            PonderalIndex(
+                pi = pi
+            )
         }
     }
 
-    private fun calculateWeightClass(bmi: Float): WeightClass {
-        var weightClass = WeightClass.UNDER
-        for (type in WeightClass.values()) {
-            if (type.inRange(bmi)) {
-                weightClass = type
-                break
+        // Calculation -> bmi = weight / (heightInMeters)^2
+        private fun calculateBMI(bmiRequest: BMIRequest): Float {
+            return with(bmiRequest) {
+                val heightInMeters = height / 100f
+                val bmi = weight / heightInMeters.pow(2)
+                bmi
             }
         }
-        return weightClass
+
+        private fun calculateWeightClass(bmi: Float): WeightClass {
+            var weightClass = WeightClass.UNDER
+            for (type in WeightClass.values()) {
+                if (type.inRange(bmi)) {
+                    weightClass = type
+                    break
+                }
+            }
+            return weightClass
+        }
     }
-}

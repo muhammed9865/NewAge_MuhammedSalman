@@ -2,7 +2,8 @@ package com.muhammed.muhammedsalmannewage.domain.model.bmi
 
 data class BMIResult(
     val weightClass: WeightClass,
-    val bmi: BMI
+    val bmi: BMI,
+    val pi: PonderalIndex
 )
 
 enum class WeightClass(
@@ -23,7 +24,7 @@ enum class WeightClass(
     ),
     OBESE(
         start = 30f,
-        end = 100f
+        end = Float.POSITIVE_INFINITY
     ),
 
 }
