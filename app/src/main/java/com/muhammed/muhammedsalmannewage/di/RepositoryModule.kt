@@ -1,6 +1,8 @@
 package com.muhammed.muhammedsalmannewage.di
 
+import com.muhammed.muhammedsalmannewage.data.repository.BMIRepositoryImpl
 import com.muhammed.muhammedsalmannewage.data.repository.MetricRepositoryImpl
+import com.muhammed.muhammedsalmannewage.domain.repository.BMIRepository
 import com.muhammed.muhammedsalmannewage.domain.repository.MetricRepository
 import dagger.Binds
 import dagger.Module
@@ -15,5 +17,10 @@ abstract class RepositoryModule {
     abstract fun bindMetricRepository(
         impl: MetricRepositoryImpl
     ) : MetricRepository
+
+    @Binds
+    abstract fun bindBMIRepository(
+        impl: BMIRepositoryImpl
+    ) : BMIRepository
 
 }
