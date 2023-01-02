@@ -1,4 +1,4 @@
-package com.muhammed.muhammedsalmannewage.data.source
+package com.muhammed.muhammedsalmannewage.data.source.local.metrics
 
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package com.muhammed.muhammedsalmannewage.data.repository
 
 import com.muhammed.muhammedsalmannewage.data.mapper.gender.GenderMapper
-import com.muhammed.muhammedsalmannewage.data.source.MetricsProvider
+import com.muhammed.muhammedsalmannewage.data.source.local.metrics.MetricsProvider
 import com.muhammed.muhammedsalmannewage.domain.model.State
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.MetricsLists
 import com.muhammed.muhammedsalmannewage.domain.repository.MetricRepository
