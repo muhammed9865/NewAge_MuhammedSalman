@@ -18,7 +18,6 @@ class TestCalculateBMIUseCase {
     private val bmiRequest = BMIRequest(
         weight = 80,
         height = 175,
-        age = 20,
         gender = Gender.MALE
     )
 
@@ -29,8 +28,9 @@ class TestCalculateBMIUseCase {
     fun `returned bmi is correct`() {
         // When
         val bmiResult = useCase.invoke(bmiRequest)
-        val bmi = bmiResult.bmi
+        val bmi = bmiResult.data!!.bmi.trimmed().toFloat()
 
+        println(bmi)
         // Then
         assert(bmi == correctBmi)
     }
@@ -39,7 +39,7 @@ class TestCalculateBMIUseCase {
     fun `returned weightClass is correct`() {
         // When
         val bmiResult = useCase.invoke(bmiRequest)
-        val weightClass = bmiResult.weightClass
+        val weightClass = bmiResult.data!!.weightClass
 
         println(weightClass)
         // Then
