@@ -5,38 +5,114 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.muhammed.muhammedsalmannewage.domain.model.screenshot.ScreenshotRequest
+import com.muhammed.muhammedsalmannewage.domain.usecase.SaveScreenshotUseCase
 import com.muhammed.muhammedsalmannewage.presentation.common.view.BitmapExtractor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class ResultViewModel @Inject constructor(): ViewModel() {
+class ResultViewModel @Inject constructor(
+    private val saveScreenshotUseCase: SaveScreenshotUseCase,
+) : ViewModel() {
 
-    fun takeScreenshot(view: View, saveLocation: String) : Intent? {
-        val bitmap = BitmapExtractor.of(view)
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "image/jpeg"
+    private val _state = MutableStateFlow(ResultUiState())
+    val state = _state.asStateFlow()
+    private val stateAccess get() = state.value
 
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+    fun takeScreenshot(view: View, saveLocation: String) {
+        viewModelScope.launch(Dispatchers.IO) {
 
-        val fileLocation = saveLocation + File.separator + "temp_screenshot.jpeg"
-        val file = File(fileLocation)
-        try {
-            file.createNewFile()
-            val fo = FileOutputStream(file)
-            fo.write(bytes.toByteArray())
-        }catch (e: IOException) {
-            e.printStackTrace()
-            return null
+            // Ran on Main thread because of BitmapExtractor is accessing a view
+            // Accessing a view in different threads causes a crash
+            val bitmap = async(Dispatchers.Main) { BitmapExtractor.of(view) }
+
+            val bytes = ByteArrayOutputStream()
+            bitmap.await().compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+
+            val screenshotRequest = ScreenshotRequest(
+                bytes = bytes,
+                saveLocation = saveLocation
+            )
+            val saveResponse = saveScreenshotUseCase.invoke(
+                screenshotRequest = screenshotRequest
+            )
+
+            if (saveResponse.isSuccessful()) {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "image/jpeg"
+                val uri = Uri.parse(saveResponse.data!!.screenshotPath)
+                intent.putExtra(Intent.EXTRA_STREAM, uri)
+
+                setState(
+                    stateAccess.copy(shareIntent = intent)
+                )
+                // Delaying before resetting to make sure the state is handled already
+                delay(200)
+                // Setting the intent to null, so it doesn't launch again on configuration change
+                setState(
+                    stateAccess.copy(shareIntent = null)
+                )
+            } else {
+                setState(
+                    stateAccess.copy(error = "Error taking screenshot", shareIntent = null)
+                )
+            }
+
+
         }
 
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileLocation))
-        return intent
+    }
+
+    // Constructing a Rating intent to rate app
+    // Two intents are constructed
+    // if main (rateIntent) causes NoActivityFoundException
+    // the rateIntentSecondary one should be used
+    fun rateApp(packageName: String) {
+        val uri = Uri.parse("market://details?id=$packageName")
+        // Making sure only the Play Store who's targeted by the above Uri
+        val playStorePackageName = "com.android.vending"
+        val rateIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+            setPackage(playStorePackageName)
+        }
+
+        val uriSecondary = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+        val rateIntentSecondary = Intent(Intent.ACTION_VIEW, uriSecondary)
+
+        viewModelScope.launch {
+            setState(
+                stateAccess.copy(
+                    rateIntent = rateIntent,
+                    rateIntentSecondary = rateIntentSecondary
+                )
+            )
+            // Delaying before resetting to make sure the state is handled already
+            delay(200)
+            // Setting the intent to null, so it doesn't launch again on configuration change
+            setState(
+                stateAccess.copy(
+                    rateIntent = null,
+                    rateIntentSecondary = null
+                )
+            )
+        }
 
     }
+
+    private fun setState(state: ResultUiState) {
+        _state.update {
+            state
+        }
+    }
+
+
 }

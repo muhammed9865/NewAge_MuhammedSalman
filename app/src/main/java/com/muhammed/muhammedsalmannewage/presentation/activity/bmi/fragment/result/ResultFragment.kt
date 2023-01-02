@@ -1,8 +1,6 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.result
 
 import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -13,8 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.Slide
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -31,6 +31,8 @@ import com.muhammed.muhammedsalmannewage.domain.model.bmi.name
 import com.muhammed.muhammedsalmannewage.presentation.activity.bmi.MainViewModel
 import com.muhammed.muhammedsalmannewage.presentation.common.fragment.ViewBindingFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 private const val TAG = "ResultFragment"
 
@@ -62,6 +64,7 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        doOnStateChange()
 
         mainViewModel.bmiResult?.let { bmiResult ->
             displayBMIResult(
@@ -73,18 +76,16 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         // Action Buttons clicks
         with(binding) {
             bmiRateBtn.setOnClickListener {
-                rateApp()
+                viewModel.rateApp(
+                    packageName = requireContext().packageName
+                )
             }
 
             bmiShareBtn.setOnClickListener {
-                val intent = viewModel.takeScreenshot(
+                viewModel.takeScreenshot(
                     view = binding.bmiCard,
                     saveLocation = requireActivity().cacheDir.absolutePath
                 )
-
-                intent?.let {
-                    startActivity(Intent.createChooser(it, "Share Image"))
-                }
             }
         }
     }
@@ -93,6 +94,22 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         super.onDestroyView()
         if (this::nativeAd.isInitialized)
             nativeAd.destroy()
+    }
+
+    private fun doOnStateChange() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.state.onEach { state ->
+                state.shareIntent?.let { startActivity(it) }
+                state.error?.let { showError(it) }
+                state.rateIntent?.let { rIntent ->
+                    try {
+                        startActivity(rIntent)
+                    }catch (e: ActivityNotFoundException) {
+                        startActivity(state.rateIntentSecondary)
+                    }
+                }
+            }.launchIn(this)
+        }
     }
 
     /*
@@ -186,28 +203,7 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         binding.bmiPercentage.text = spannedText
     }
 
-    private fun rateApp() {
-        val packageName = requireContext().packageName
-        try {
-            val uri = Uri.parse("market://details?id=$packageName")
-            val playStorePackageName = "com.android.vending"
-            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-                setPackage(playStorePackageName)
-            }
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            val uri = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    uri
-                ),
-            )
-        }
-    }
-    private fun shareResult() {
-        with(binding) {
-
-        }
+    private fun showError(error: String) {
+        Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
     }
 }
