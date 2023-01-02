@@ -1,8 +1,10 @@
 package com.muhammed.muhammedsalmannewage.data.source
 
+import javax.inject.Inject
+
 
 // This class is faking a network call to a server to get metrics.
-class MetricsProviderImpl : MetricsProvider {
+class MetricsProviderImpl @Inject constructor(): MetricsProvider {
 
     override suspend fun getWeightsList(): List<Int> = getWeights()
 
