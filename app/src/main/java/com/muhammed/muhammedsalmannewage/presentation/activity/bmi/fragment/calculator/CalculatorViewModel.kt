@@ -1,21 +1,24 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.calculator
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIRequest
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.Gender
 import com.muhammed.muhammedsalmannewage.domain.usecase.CalculateBMIUseCase
 import com.muhammed.muhammedsalmannewage.domain.usecase.GetMetricsListsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
     private val calculateBMIUseCase: CalculateBMIUseCase,
-    private val metricsListsUseCase: GetMetricsListsUseCase
-): ViewModel() {
+    private val metricsListsUseCase: GetMetricsListsUseCase,
+) : ViewModel() {
 
     private val _state = MutableStateFlow(CalculatorUiState())
     val state = _state.asStateFlow()
@@ -24,17 +27,22 @@ class CalculatorViewModel @Inject constructor(
     private val stateAccess get() = state.value
 
     init {
-        // Propagating the Lists to be displayed
-        val listsResult = metricsListsUseCase.invoke()
-        if (listsResult.isSuccessful()) {
-            val lists = listsResult.data!!
-            updateState(
-                stateAccess.copy(
-                    weightsList = lists.weightList,
-                    heightsList = lists.heightList,
-                    genderList = lists.genderList
+        initMetricsLists()
+    }
+
+    private fun initMetricsLists() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val listsResult = metricsListsUseCase.invoke()
+            if (listsResult.isSuccessful()) {
+                val lists = listsResult.data!!
+                updateState(
+                    stateAccess.copy(
+                        weightsList = lists.weightList,
+                        heightsList = lists.heightList,
+                        genderList = lists.genderList
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -81,7 +89,7 @@ class CalculatorViewModel @Inject constructor(
             height = stateAccess.selectedHeight,
             gender = stateAccess.selectedGender,
 
-        )
+            )
     }
 
 
