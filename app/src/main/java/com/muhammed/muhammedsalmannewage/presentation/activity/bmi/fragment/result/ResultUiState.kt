@@ -7,5 +7,6 @@ data class ResultUiState(
     val shareIntent: Intent? = null,
     val rateIntent: Intent? = null,
     // Used if the rateIntent causes an except (ActivityNotFound)
-    val rateIntentSecondary: Intent? = null
+    val rateIntentSecondary: Intent? = null,
+    val showAds: Boolean = false,
 )

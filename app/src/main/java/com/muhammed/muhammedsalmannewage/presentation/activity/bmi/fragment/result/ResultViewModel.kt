@@ -132,5 +132,17 @@ class ResultViewModel @Inject constructor(
         }
     }
 
+    fun onAdFailed() {
+        setState(
+            stateAccess.copy(showAds = false)
+        )
+    }
+
+    fun onAdLoaded() {
+        setState(
+            stateAccess.copy(showAds = true)
+        )
+    }
+
 
 }

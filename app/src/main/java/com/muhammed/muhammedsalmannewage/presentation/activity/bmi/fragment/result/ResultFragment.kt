@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -105,10 +104,14 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
                 state.rateIntent?.let { rIntent ->
                     try {
                         startActivity(rIntent)
-                    }catch (e: ActivityNotFoundException) {
+                    } catch (e: ActivityNotFoundException) {
                         startActivity(state.rateIntentSecondary)
                     }
                 }
+
+                displayAd(state.showAds)
+
+
             }.launchIn(this)
         }
     }
@@ -129,12 +132,13 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         val adLoader = AdLoader.Builder(requireContext(), adUnitId)
             .forNativeAd {
                 nativeAd = it
-                displayAd(it)
+                viewModel.onAdLoaded()
             }
+
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(p0: LoadAdError) {
                     super.onAdFailedToLoad(p0)
-                    Log.e(TAG, "onAdFailedToLoad: ${p0.message}")
+                    viewModel.onAdFailed()
                 }
             })
             .withNativeAdOptions(adOptions.build())
@@ -146,31 +150,35 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
     }
 
     // Note: AdChoicesView will appear when the adUnitId isn't the testing one.
-    private fun displayAd(ad: NativeAd) {
-        with(binding) {
-            val adView = adsBanner
-            // Setup adViews with layout views
-            adView.headlineView = adHeadline
-            adView.bodyView = adBody
-            adView.mediaView = adImg
-            adView.callToActionView = adEventButton
-            adView.adChoicesView = adChoices
+    private fun displayAd(show: Boolean) {
+        if (show)
+            with(binding) {
+                val ad = nativeAd
+                val adView = adsBanner
+                // Setup adViews with layout views
+                adView.headlineView = adHeadline
+                adView.bodyView = adBody
+                adView.mediaView = adImg
+                adView.callToActionView = adEventButton
+                adView.adChoicesView = adChoices
 
-            // displaying ad details
-            // These assets are guaranteed to be available
-            adHeadline.text = ad.headline
-            adBody.text = ad.body
-            adView.mediaView?.mediaContent = ad.mediaContent
-            adView.mediaView?.setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                // displaying ad details
+                // These assets are guaranteed to be available
+                adHeadline.text = ad.headline
+                adBody.text = ad.body
+                adView.mediaView?.mediaContent = ad.mediaContent
+                adView.mediaView?.setImageScaleType(ImageView.ScaleType.CENTER_CROP)
 
-            // These assets aren't guaranteed to be available
-            adView.callToActionView?.visibility =
-                if (ad.callToAction == null) View.INVISIBLE else View.VISIBLE
+                // These assets aren't guaranteed to be available
+                adView.callToActionView?.visibility =
+                    if (ad.callToAction == null) View.INVISIBLE else View.VISIBLE
 
-            // Registering the Ad with the AdView
-            adView.setNativeAd(ad)
-            ad
-        }
+                // Registering the Ad with the AdView
+                adView.setNativeAd(ad)
+                ad
+            }
+        else
+            binding.adsBanner.visibility = View.GONE
 
 
     }

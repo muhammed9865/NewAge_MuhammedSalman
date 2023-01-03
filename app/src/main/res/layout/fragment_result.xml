@@ -160,13 +160,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/default_banner_ad_bg">
 
             <com.google.android.gms.ads.nativead.MediaView
                 android:id="@+id/ad_img"
-                android:layout_width="@dimen/banner_ad_img_size"
-                android:layout_height="@dimen/banner_ad_img_size"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
                 android:layout_marginTop="@dimen/banner_ad_img_mar_top"
                 app:layout_constraintBottom_toTopOf="@+id/ad_event_button"
                 app:layout_constraintStart_toStartOf="@+id/ad_event_button"
@@ -207,8 +208,9 @@
 
             <com.google.android.gms.ads.nativead.AdChoicesView
                 android:id="@+id/ad_choices"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/adchoice_size"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
