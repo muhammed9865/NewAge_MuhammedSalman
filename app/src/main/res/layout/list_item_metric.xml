@@ -18,12 +18,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="13" />
 
-    <View
-        android:id="@+id/metric_indicator"
-        android:layout_width="@dimen/selected_metric_indicator_width"
-        android:layout_height="@dimen/selected_metric_indicator_height"
-        android:background="@color/blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/metric_value" />
 </androidx.constraintlayout.widget.ConstraintLayout>

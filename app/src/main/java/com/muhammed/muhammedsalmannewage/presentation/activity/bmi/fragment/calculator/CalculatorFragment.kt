@@ -1,7 +1,6 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.calculator
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -72,7 +71,6 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
 
         // Scroll to items and highlight on config change
         val state = viewModel.state.value
-        Log.d(TAG, "onViewCreated: called")
         scrollToItem(binding.heightSelector, heightAdapter, state.selectedHeight)
         scrollToItem(binding.weightSelector, weightAdapter, state.selectedWeight)
         scrollToItem(binding.genderSelector, genderAdapter, state.selectedGender)
@@ -119,8 +117,6 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
                 bmiResult?.let { result ->
                     onBMIResultAvailable(result)
                 }
-
-
 
             }
         }.launchIn(lifecycleScope)
