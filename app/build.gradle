@@ -9,6 +9,14 @@ plugins {
 def CONFIG = { key -> project.properties.get(key) }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('E:\\AndroidStudioProjects\\NewKeyStore\\New_key_store.jks')
+            storePassword 'QWas123456'
+            keyAlias 'MuhammedSalman'
+            keyPassword 'QWas123456'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -20,6 +28,7 @@ android {
 
         resConfigs "en"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {

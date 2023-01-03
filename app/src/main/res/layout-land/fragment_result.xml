@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/card_max_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/card_max_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/card_max_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/card_start_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bmi_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/custom_bg_rounded_grad_updown"
+        app:layout_constraintBottom_toTopOf="@+id/card_max_height"
+        app:layout_constraintEnd_toStartOf="@+id/card_max_end"
+        app:layout_constraintStart_toStartOf="@+id/card_max_start"
+        app:layout_constraintTop_toTopOf="@+id/card_start_height">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.11" />
+
+        <View
+            android:id="@+id/view"
+            style="@style/result_header_style"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView"
+            style="@style/result_header_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/bmi_header_padding"
+            android:text="@string/bmi"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.544"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+        <View
+            android:id="@+id/view2"
+            style="@style/result_header_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bmi_percentage"
+            android:layout_width="357dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bmi_percentage_fracture_size"
+            app:layout_constraintBottom_toTopOf="@+id/view3"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView"
+            tools:text="18.61" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="50dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bmi_name_with_class_tv"
+            android:layout_width="357dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline7"
+            tools:text="Hello Olivia, you are normal" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bmi_range"
+            style="@style/BMIResultRangesAppearance"
+            android:layout_width="357dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/ponderal_index"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bmi_name_with_class_tv"
+            tools:text="Normal BMI range: 18.5kg/m2 - 25kg/m2" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ponderal_index"
+            style="@style/BMIResultRangesAppearance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Ponderal Index: 10.64kg/m3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bmi_share_btn"
+            style="@style/BMIResultActionButton"
+            android:text="@string/share"
+            app:icon="@drawable/share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bmi_rate_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/bmi_percentage"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bmi_rate_btn"
+            style="@style/BMIResultActionButton"
+            android:layout_width="112dp"
+            android:text="@string/rate"
+            app:icon="@drawable/star"
+            app:layout_constraintBottom_toBottomOf="@+id/bmi_share_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/bmi_share_btn"
+            app:layout_constraintTop_toTopOf="@+id/bmi_share_btn" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.59" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/ads_banner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="6:1"
+        app:layout_constraintEnd_toStartOf="@+id/card_max_end"
+        app:layout_constraintStart_toStartOf="@+id/card_max_start"
+        app:layout_constraintTop_toTopOf="@+id/card_max_height"
+        app:layout_constraintVertical_bias="1.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/default_banner_ad_bg">
+
+            <com.google.android.gms.ads.nativead.MediaView
+                android:id="@+id/ad_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ad_headline"
+                style="@style/Headline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ad_img"
+                app:layout_constraintTop_toTopOf="@+id/ad_img"
+                tools:text="Hello America" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ad_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/ad_event_button"
+                app:layout_constraintStart_toStartOf="@+id/ad_headline"
+                app:layout_constraintTop_toBottomOf="@+id/ad_headline"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="Hello America" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ad_event_button"
+                style="@style/BannerAdsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/install"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.gms.ads.nativead.AdChoicesView
+                android:id="@+id/ad_choices"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ad_attribution"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/ad_attribution"
+                app:layout_constraintTop_toTopOf="@+id/ad_attribution" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ad_attribution"
+                style="@style/AdAttribution"
+                android:text="@string/ad_attribution"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.gms.ads.nativead.NativeAdView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

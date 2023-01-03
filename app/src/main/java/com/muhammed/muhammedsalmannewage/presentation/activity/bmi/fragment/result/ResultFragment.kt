@@ -184,7 +184,6 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
                 // Registering the Ad with the AdView
                 adView.setNativeAd(ad)
-                ad
             }
         } else
             binding.adsBanner.visibility = View.GONE
