@@ -5,12 +5,15 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -23,7 +26,10 @@ import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIResult
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.Gender
 import com.muhammed.muhammedsalmannewage.presentation.activity.bmi.MainViewModel
 import com.muhammed.muhammedsalmannewage.presentation.adapter.CountableMetricAdapter
-import com.muhammed.muhammedsalmannewage.presentation.common.fragment.ViewBindingFragment
+import com.muhammed.muhammedsalmannewage.presentation.core.common.fragment.ViewBindingFragment
+import com.muhammed.muhammedsalmannewage.presentation.core.common.view.hideKeyboard
+import com.muhammed.muhammedsalmannewage.presentation.core.common.view.onDone
+import com.muhammed.muhammedsalmannewage.presentation.core.common.view.setImeAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -61,17 +67,56 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
         observeStateChange()
         setUpRecyclerViews()
 
+        // To get the name on any configuration change
+        binding.nameInputField.setText(mainViewModel.name)
+
         val transition = Slide(Gravity.START)
         enterTransition = transition
         exitTransition = transition
 
-        // Handling Buttons clicks
+        binding.nameInputField.setImeAction(EditorInfo.IME_ACTION_DONE)
+
+        // Listeners
         with(binding) {
             calculateBtn.setOnClickListener {
                 viewModel.calculate()
             }
+
+            nameInputField.doOnTextChanged { text, _, _, _ ->
+                mainViewModel.name = text.toString()
+            }
+
+            nameInputField.onDone {
+                it.hideKeyboard()
+                it.clearFocus()
+            }
         }
+
     }
+
+    private fun highlightCenterItem(
+        recyclerView: RecyclerView,
+        adapter: CountableMetricAdapter<*>,
+    ) {
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(recyclerView)
+        recyclerView.onFlingListener = null
+        layoutManager.scrollToPositionWithOffset(0, 0)
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val centerView = snapHelper.findSnapView(layoutManager)
+                val position = layoutManager.getPosition(centerView!!)
+
+                if (position != 249)
+                    adapter.highlightItem(position)
+            }
+
+        })
+    }
+
 
     private fun observeStateChange() {
         viewModel.state.onEach { state ->
@@ -121,13 +166,20 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
     }
 
     private fun setUpRecyclerViews() {
-        initRecyclerViewWithBinding(binding.weightSelector, weightAdapter) { weight ->
+        initRecyclerViewWithBinding(
+            binding.weightSelector,
+            weightAdapter,
+        ) { weight ->
             viewModel.setWeight(weight)
         }
-        initRecyclerViewWithBinding(binding.heightSelector, heightAdapter) { height ->
+        initRecyclerViewWithBinding(
+            binding.heightSelector, heightAdapter,
+        ) { height ->
             viewModel.setHeight(height)
         }
-        initRecyclerViewWithBinding(binding.genderSelector, genderAdapter) { gender ->
+        initRecyclerViewWithBinding(
+            binding.genderSelector, genderAdapter,
+        ) { gender ->
             viewModel.setGender(gender)
         }
 
@@ -135,26 +187,29 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
 
     private fun <T : Any> initRecyclerViewWithBinding(
         binding: MetricSelectorBinding,
-        adapter: CountableMetricAdapter<T>,
-        onItem: (T) -> Unit
+        cAdapter: CountableMetricAdapter<T>,
+        onItem: (T) -> Unit,
     ) {
         // Setting up recycler view with adapter and adding a SnapEffect for scrolling
-        val pageSnapHelper = PagerSnapHelper()
-        binding.metricRv.adapter = adapter
-        pageSnapHelper.attachToRecyclerView(binding.metricRv)
+        binding.metricRv.apply {
+            adapter = cAdapter
+        }
+
+        // Highlighting the center item in the recycler view
+        highlightCenterItem(binding.metricRv, cAdapter)
 
         // Sets Adapter Listener and adds a listener for scrolling
-        setUpAdapterListener(binding, adapter, onItem)
+        setUpAdapterListener(cAdapter, onItem)
 
     }
 
 
-    private fun <T: Any> setUpAdapterListener(binding: MetricSelectorBinding, adapter: CountableMetricAdapter<T>, onItem: (T) -> Unit) {
+    private fun <T : Any> setUpAdapterListener(
+        adapter: CountableMetricAdapter<T>,
+        onItem: (T) -> Unit,
+    ) {
         adapter.setOnItemSelectedListener {
-            val lm = binding.metricRv.layoutManager as LinearLayoutManager
-            val position = if (lm.findFirstVisibleItemPosition() == -1) 0 else lm.findFirstCompletelyVisibleItemPosition()
-            val item = adapter.getItemByPosition(position)
-            onItem(item)
+            onItem(it)
         }
 
     }

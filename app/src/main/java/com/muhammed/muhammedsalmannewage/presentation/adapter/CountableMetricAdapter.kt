@@ -12,6 +12,7 @@ typealias ItemSelectedListener<T> = (T) -> Unit
 class CountableMetricAdapter <T: Any> : ListAdapter<T, MetricViewHolder<T>>(CountableDiffUtil()) {
 
     private var onItemSelectedListener: ItemSelectedListener<T>? = null
+    private var selectedItemPosition = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MetricViewHolder<T> {
         val binding =
@@ -22,7 +23,9 @@ class CountableMetricAdapter <T: Any> : ListAdapter<T, MetricViewHolder<T>>(Coun
     override fun onBindViewHolder(holder: MetricViewHolder<T>, position: Int) {
         val item = getItem(position)
         holder.bind(
-            item = item
+            item = item,
+            isSelected = selectedItemPosition == position,
+            position = position
         )
         onItemSelectedListener?.invoke(item)
     }
@@ -31,7 +34,14 @@ class CountableMetricAdapter <T: Any> : ListAdapter<T, MetricViewHolder<T>>(Coun
         this.onItemSelectedListener = listener
     }
 
-    fun getItemByPosition(position: Int) : T = getItem(position)
+
+    // create the highlightItem method to highlight the item in the center
+    fun highlightItem(position: Int) {
+        selectedItemPosition = position
+        notifyDataSetChanged()
+    }
+
+    private val TAG = "CountableMetricAdapter"
 
 }
 
