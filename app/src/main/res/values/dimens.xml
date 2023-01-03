@@ -30,4 +30,5 @@
     <dimen name="bmi_percentage_fracture_size">40sp</dimen>
     <dimen name="bmi_header_padding">10dp</dimen>
     <dimen name="adchoice_size">20dp</dimen>
+    <dimen name="metrics_card_elevation">7dp</dimen>
 </resources>

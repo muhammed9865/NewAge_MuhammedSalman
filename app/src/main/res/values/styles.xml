@@ -31,7 +31,9 @@
         <item name="android:textSize">@dimen/h3_text_size</item>
     </style>
 
-    <style name="ToolbarTextAppearance" parent="Headline2"></style>
+    <style name="ToolbarTextAppearance" parent="Headline2">
+
+    </style>
 
     <style name="PrimaryInputFieldLayout">
         <item name="boxBackgroundMode">outline</item>

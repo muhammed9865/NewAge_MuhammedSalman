@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.32" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/details_header"
@@ -26,8 +26,7 @@
         android:text="@string/details_entry"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/window_center_gl"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -37,11 +36,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/name_input_mar_horiz"
-        app:layout_constraintBottom_toTopOf="@+id/window_center_gl"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/metrics_gl_start"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/details_header"
-        app:layout_constraintVertical_bias="0.22000003">
+        app:layout_constraintTop_toTopOf="@+id/window_center_gl">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name_input_field"
@@ -61,26 +58,22 @@
 
         android:text="@string/calculate_bmi_msg"
         android:textColor="@color/grey_alpha_80"
-        app:layout_constraintBottom_toTopOf="@+id/window_center_gl"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:layout_constraintVertical_bias="0.86" />
+        app:layout_constraintStart_toEndOf="@+id/details_header"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/weight_label"
         style="@style/MetricsLabelTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/metrics_mar_top"
         android:fontFamily="@font/work_sans"
         android:text="@string/weight_metric"
         app:layout_constraintBottom_toTopOf="@+id/metrics_gl_top"
         app:layout_constraintEnd_toStartOf="@+id/height_label"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/window_center_gl" />
+        app:layout_constraintStart_toStartOf="@+id/metrics_gl_start" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/height_label"
@@ -101,7 +94,7 @@
         android:layout_height="wrap_content"
         android:text="@string/gender_metric"
         app:layout_constraintBottom_toBottomOf="@+id/height_label"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/metrics_gl_end"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/height_label"
         app:layout_constraintTop_toTopOf="@+id/weight_label" />
@@ -111,25 +104,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.42"/>
+        app:layout_constraintGuide_percent="0.32" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/metrics_gl_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6"/>
+        app:layout_constraintGuide_percent="0.82" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/metrics_gl_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05"/>
+        app:layout_constraintGuide_percent="0.95" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/metrics_gl_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95"/>
+        app:layout_constraintGuide_percent="0.4" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
@@ -137,8 +133,8 @@
         android:layout_height="0dp"
         app:cardElevation="@dimen/metrics_card_elevation"
         app:layout_constraintBottom_toBottomOf="@id/metrics_gl_bottom"
-        app:layout_constraintEnd_toStartOf="@+id/metrics_gl_start"
-        app:layout_constraintStart_toStartOf="@+id/metrics_gl_end"
+        app:layout_constraintEnd_toStartOf="@+id/metrics_gl_end"
+        app:layout_constraintStart_toStartOf="@+id/metrics_gl_start"
         app:layout_constraintTop_toTopOf="@+id/metrics_gl_top">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -188,14 +184,13 @@
         style="@style/PrimaryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/calc_btn_mar_horiz"
-        android:layout_marginTop="@dimen/calc_btn_mar_top"
+        android:layout_marginTop="64dp"
         android:text="@string/calculate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/materialCardView"
-        app:layout_constraintStart_toStartOf="@+id/materialCardView"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toTopOf="@+id/metrics_gl_bottom"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
