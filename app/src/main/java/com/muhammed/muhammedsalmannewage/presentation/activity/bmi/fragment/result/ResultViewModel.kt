@@ -7,6 +7,7 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIResult
 import com.muhammed.muhammedsalmannewage.domain.model.screenshot.ScreenshotRequest
 import com.muhammed.muhammedsalmannewage.domain.usecase.SaveScreenshotUseCase
 import com.muhammed.muhammedsalmannewage.presentation.core.MainFileProvider
@@ -141,6 +142,12 @@ class ResultViewModel @Inject constructor(
     fun onAdLoaded() {
         setState(
             stateAccess.copy(showAds = true)
+        )
+    }
+
+    fun onBMIResult(name: String?, bmiResult: BMIResult) {
+        setState(
+            stateAccess.copy(name = name ?: "there", bmiResult = bmiResult)
         )
     }
 

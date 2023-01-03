@@ -27,6 +27,7 @@ import com.muhammed.muhammedsalmannewage.R
 import com.muhammed.muhammedsalmannewage.databinding.FragmentResultBinding
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMI
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIResult
+import com.muhammed.muhammedsalmannewage.domain.model.bmi.WeightClass
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.name
 import com.muhammed.muhammedsalmannewage.presentation.activity.bmi.MainViewModel
 import com.muhammed.muhammedsalmannewage.presentation.core.common.fragment.ViewBindingFragment
@@ -67,9 +68,9 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         doOnStateChange()
 
         mainViewModel.bmiResult?.let { bmiResult ->
-            displayBMIResult(
-                name = mainViewModel.name ?: "",
-                bmiResult = bmiResult,
+            viewModel.onBMIResult(
+                name = mainViewModel.name,
+                bmiResult = bmiResult
             )
         }
 
@@ -107,6 +108,13 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
                     } catch (e: ActivityNotFoundException) {
                         startActivity(state.rateIntentSecondary)
                     }
+                }
+
+                state.bmiResult?.let { bmiResult ->
+                    displayBMIResult(
+                        name = state.name,
+                        bmiResult = bmiResult
+                    )
                 }
 
                 displayAd(state.showAds)
@@ -151,7 +159,8 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
 
     // Note: AdChoicesView will appear when the adUnitId isn't the testing one.
     private fun displayAd(show: Boolean) {
-        if (show)
+        if (show) {
+            binding.adsBanner.visibility = View.VISIBLE
             with(binding) {
                 val ad = nativeAd
                 val adView = adsBanner
@@ -177,7 +186,7 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
                 adView.setNativeAd(ad)
                 ad
             }
-        else
+        } else
             binding.adsBanner.visibility = View.GONE
 
 
@@ -192,8 +201,11 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
         binding.bmiNameWithClassTv.text = nameWithClass
 
         // Displaying BMI range
-        val bmiRange =
+        val bmiRange = if (weightClass != WeightClass.OBESE)
             getString(R.string.bmi_range, weightClass.name(), weightClass.start, weightClass.end)
+        else
+            getString(R.string.bmi_range_obese, weightClass.start)
+
         binding.bmiRange.text = bmiRange
 
         // Displaying Ponderal Index
