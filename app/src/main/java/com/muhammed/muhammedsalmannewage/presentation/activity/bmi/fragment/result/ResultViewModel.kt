@@ -1,5 +1,6 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.result
 
+import android.content.ClipData
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -8,7 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muhammed.muhammedsalmannewage.domain.model.screenshot.ScreenshotRequest
 import com.muhammed.muhammedsalmannewage.domain.usecase.SaveScreenshotUseCase
-import com.muhammed.muhammedsalmannewage.presentation.common.view.BitmapExtractor
+import com.muhammed.muhammedsalmannewage.presentation.core.MainFileProvider
+import com.muhammed.muhammedsalmannewage.presentation.core.common.view.BitmapExtractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -20,6 +22,7 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
+private const val TAG = "ResultViewModel"
 @HiltViewModel
 class ResultViewModel @Inject constructor(
     private val saveScreenshotUseCase: SaveScreenshotUseCase,
@@ -36,25 +39,29 @@ class ResultViewModel @Inject constructor(
             // Accessing a view in different threads causes a crash
             val bitmap = async(Dispatchers.Main) { BitmapExtractor.of(view) }
 
+            // Compress and save the Bitmap to bytes
             val bytes = ByteArrayOutputStream()
-            bitmap.await().compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            bitmap.await().compress(Bitmap.CompressFormat.PNG, 100, bytes)
 
             val screenshotRequest = ScreenshotRequest(
                 bytes = bytes,
-                saveLocation = saveLocation
+                saveLocation = "$saveLocation/screenshots/"
             )
+
             val saveResponse = saveScreenshotUseCase.invoke(
                 screenshotRequest = screenshotRequest
             )
-
+            // If the screenshot is saved, construct an Intent to share it.
             if (saveResponse.isSuccessful()) {
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.type = "image/jpeg"
-                val uri = Uri.parse(saveResponse.data!!.screenshotPath)
-                intent.putExtra(Intent.EXTRA_STREAM, uri)
+                val uri = MainFileProvider.getUriOForLocation(
+                    context = view.context,
+                    location = saveResponse.data!!.screenshotPath
+                )
+
+                val shareIntent = provideShareIntent(uri)
 
                 setState(
-                    stateAccess.copy(shareIntent = intent)
+                    stateAccess.copy(shareIntent = shareIntent)
                 )
                 // Delaying before resetting to make sure the state is handled already
                 delay(200)
@@ -67,10 +74,21 @@ class ResultViewModel @Inject constructor(
                     stateAccess.copy(error = "Error taking screenshot", shareIntent = null)
                 )
             }
-
-
         }
 
+    }
+
+    private fun provideShareIntent(uri: Uri): Intent {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.setDataAndType(uri, "image/png")
+        shareIntent.clipData = ClipData(
+            ClipData.newRawUri("", uri)
+        )
+
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        shareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
+        return shareIntent
     }
 
     // Constructing a Rating intent to rate app

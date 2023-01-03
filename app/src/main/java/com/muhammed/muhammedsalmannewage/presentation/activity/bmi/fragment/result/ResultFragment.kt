@@ -1,6 +1,7 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.result
 
 import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -29,7 +30,7 @@ import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMI
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.BMIResult
 import com.muhammed.muhammedsalmannewage.domain.model.bmi.name
 import com.muhammed.muhammedsalmannewage.presentation.activity.bmi.MainViewModel
-import com.muhammed.muhammedsalmannewage.presentation.common.fragment.ViewBindingFragment
+import com.muhammed.muhammedsalmannewage.presentation.core.common.fragment.ViewBindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -99,7 +100,7 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
     private fun doOnStateChange() {
         lifecycleScope.launchWhenCreated {
             viewModel.state.onEach { state ->
-                state.shareIntent?.let { startActivity(it) }
+                state.shareIntent?.let { startActivity(Intent.createChooser(it, "Share Image")) }
                 state.error?.let { showError(it) }
                 state.rateIntent?.let { rIntent ->
                     try {

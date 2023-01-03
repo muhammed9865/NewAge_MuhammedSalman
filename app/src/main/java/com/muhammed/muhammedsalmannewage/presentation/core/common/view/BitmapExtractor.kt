@@ -1,4 +1,4 @@
-package com.muhammed.muhammedsalmannewage.presentation.common.view
+package com.muhammed.muhammedsalmannewage.presentation.core.common.view
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
