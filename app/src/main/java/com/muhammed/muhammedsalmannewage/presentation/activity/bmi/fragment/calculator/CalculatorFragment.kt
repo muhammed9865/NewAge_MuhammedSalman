@@ -1,6 +1,7 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.calculator
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ import com.muhammed.muhammedsalmannewage.domain.model.bmi.Gender
 import com.muhammed.muhammedsalmannewage.presentation.activity.bmi.MainViewModel
 import com.muhammed.muhammedsalmannewage.presentation.adapter.CountableMetricAdapter
 import com.muhammed.muhammedsalmannewage.presentation.core.common.fragment.ViewBindingFragment
+import com.muhammed.muhammedsalmannewage.presentation.core.common.view.CenterLinearLayoutManager
 import com.muhammed.muhammedsalmannewage.presentation.core.common.view.hideKeyboard
 import com.muhammed.muhammedsalmannewage.presentation.core.common.view.onDone
 import com.muhammed.muhammedsalmannewage.presentation.core.common.view.setImeAction
@@ -59,13 +61,21 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
         savedInstanceState: Bundle?,
     ): View? {
         loadAd()
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeStateChange()
         setUpRecyclerViews()
+        observeStateChange()
+
+        // Scroll to items and highlight on config change
+        val state = viewModel.state.value
+        Log.d(TAG, "onViewCreated: called")
+        scrollToItem(binding.heightSelector, heightAdapter, state.selectedHeight)
+        scrollToItem(binding.weightSelector, weightAdapter, state.selectedWeight)
+        scrollToItem(binding.genderSelector, genderAdapter, state.selectedGender)
 
         // To get the name on any configuration change
         binding.nameInputField.setText(mainViewModel.name)
@@ -94,29 +104,6 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
 
     }
 
-    private fun highlightCenterItem(
-        recyclerView: RecyclerView,
-        adapter: CountableMetricAdapter<*>,
-    ) {
-        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-        val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
-        recyclerView.onFlingListener = null
-        layoutManager.scrollToPositionWithOffset(0, 0)
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val centerView = snapHelper.findSnapView(layoutManager)
-                val position = layoutManager.getPosition(centerView!!)
-
-                if (position != 249)
-                    adapter.highlightItem(position)
-            }
-
-        })
-    }
-
 
     private fun observeStateChange() {
         viewModel.state.onEach { state ->
@@ -132,12 +119,16 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
                 bmiResult?.let { result ->
                     onBMIResultAvailable(result)
                 }
+
+
+
             }
         }.launchIn(lifecycleScope)
     }
 
     private fun showAd() {
         if (this::interstitialAd.isInitialized) {
+            // To display the Ad in a full mode screen
             interstitialAd.setImmersiveMode(true)
             interstitialAd.show(requireActivity())
         }
@@ -157,6 +148,12 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
                 }
             }
         )
+    }
+
+
+    private fun <T : Any> scrollToItem(binding: MetricSelectorBinding, adapter: CountableMetricAdapter<T>, item: T) {
+        val itemPosition = adapter.getPositionAndHighlight(item)
+        binding.metricRv.smoothScrollToPosition(itemPosition)
     }
 
     private fun onBMIResultAvailable(bmiResult: BMIResult) {
@@ -193,24 +190,53 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
         // Setting up recycler view with adapter and adding a SnapEffect for scrolling
         binding.metricRv.apply {
             adapter = cAdapter
+            layoutManager =
+                CenterLinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            clipToPadding = false
         }
+
+        // SnapHelper adds a special effect to the RecyclerView
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.metricRv)
+        binding.metricRv.onFlingListener = null
+
 
         // Highlighting the center item in the recycler view
-        highlightCenterItem(binding.metricRv, cAdapter)
+        highlightCenterItem(
+            binding.metricRv,
+            cAdapter,
+            snapHelper
+        )
 
-        // Sets Adapter Listener and adds a listener for scrolling
-        setUpAdapterListener(cAdapter, onItem)
-
+        cAdapter.setOnItemSelectedListener(onItem)
     }
 
-
-    private fun <T : Any> setUpAdapterListener(
-        adapter: CountableMetricAdapter<T>,
-        onItem: (T) -> Unit,
+    private fun highlightCenterItem(
+        recyclerView: RecyclerView,
+        adapter: CountableMetricAdapter<*>,
+        snapHelper: PagerSnapHelper,
     ) {
-        adapter.setOnItemSelectedListener {
-            onItem(it)
-        }
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
 
+        // Adding the listener just to highlight the center item
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                val centerView = snapHelper.findSnapView(layoutManager)
+                val position = layoutManager.getPosition(centerView!!)
+                adapter.highlightItem(position)
+
+                val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+                val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                // If the visible items are two items, that means the last item is centered
+                // So I had to highlight it manually since  the recyclerview doesn't scroll to the last item
+                if (lastVisiblePosition - firstVisiblePosition == 1) {
+                    adapter.highlightItem(lastVisiblePosition)
+                }
+            }
+
+        })
     }
+
 }

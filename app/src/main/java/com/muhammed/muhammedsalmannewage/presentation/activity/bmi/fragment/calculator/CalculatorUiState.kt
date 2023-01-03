@@ -14,7 +14,7 @@ data class CalculatorUiState(
     val showAd: Boolean = false,
     val selectedWeight: Int = DEFAULT_WEIGHT,
     val selectedHeight: Int = DEFAULT_HEIGHT,
-    val selectedGender: Gender = Gender.UNDEFINED,
+    val selectedGender: Gender = Gender.MALE,
     val bmiResult: BMIResult? = null,
     val weightsList: List<Int> = emptyList(),
     val heightsList: List<Int> = emptyList(),

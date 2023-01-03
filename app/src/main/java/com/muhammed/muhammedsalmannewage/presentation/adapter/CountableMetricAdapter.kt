@@ -25,9 +25,10 @@ class CountableMetricAdapter <T: Any> : ListAdapter<T, MetricViewHolder<T>>(Coun
         holder.bind(
             item = item,
             isSelected = selectedItemPosition == position,
-            position = position
         )
-        onItemSelectedListener?.invoke(item)
+
+        val centerViewItem = getItem(selectedItemPosition)
+        onItemSelectedListener?.invoke(centerViewItem)
     }
 
     fun setOnItemSelectedListener(listener: ItemSelectedListener<T>) {
@@ -39,6 +40,13 @@ class CountableMetricAdapter <T: Any> : ListAdapter<T, MetricViewHolder<T>>(Coun
     fun highlightItem(position: Int) {
         selectedItemPosition = position
         notifyDataSetChanged()
+    }
+
+    fun getPositionAndHighlight(item: T) : Int {
+        val itemPosition = currentList.indexOf(item)
+       // highlightItem(itemPosition)
+        selectedItemPosition = itemPosition
+        return itemPosition
     }
 
     private val TAG = "CountableMetricAdapter"
