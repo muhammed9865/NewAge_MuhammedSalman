@@ -222,11 +222,20 @@
 
             <com.google.android.gms.ads.nativead.AdChoicesView
                 android:id="@+id/ad_choices"
-                android:layout_width="@dimen/adchoice_size"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ad_attribution"
                 app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/ad_attribution"
+                app:layout_constraintTop_toTopOf="@+id/ad_attribution" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ad_attribution"
                 app:layout_constraintEnd_toEndOf="parent"
+                style="@style/AdAttribution"
+                android:text="@string/ad_attribution"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
