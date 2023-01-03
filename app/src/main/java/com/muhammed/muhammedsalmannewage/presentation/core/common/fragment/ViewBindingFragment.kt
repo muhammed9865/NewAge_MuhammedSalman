@@ -1,4 +1,4 @@
-package com.muhammed.muhammedsalmannewage.presentation.common.fragment
+package com.muhammed.muhammedsalmannewage.presentation.core.common.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
