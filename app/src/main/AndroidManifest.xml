@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.muhammed.muhammedsalmannewage">
+
     <application
         android:name=".BMIApplication"
         android:allowBackup="true"
@@ -24,6 +25,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".presentation.core.MainFileProvider"
+            android:authorities="com.muhammed.muhammedsalmannewage.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                />
+        </provider>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
