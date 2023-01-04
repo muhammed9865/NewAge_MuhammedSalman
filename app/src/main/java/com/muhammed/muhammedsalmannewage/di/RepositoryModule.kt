@@ -1,9 +1,9 @@
 package com.muhammed.muhammedsalmannewage.di
 
-import com.muhammed.muhammedsalmannewage.data.repository.BMIRepositoryImpl
 import com.muhammed.muhammedsalmannewage.data.repository.MetricRepositoryImpl
-import com.muhammed.muhammedsalmannewage.domain.repository.BMIRepository
+import com.muhammed.muhammedsalmannewage.data.repository.ScreenshotRepositoryImpl
 import com.muhammed.muhammedsalmannewage.domain.repository.MetricRepository
+import com.muhammed.muhammedsalmannewage.domain.repository.ScreenshotRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindBMIRepository(
-        impl: BMIRepositoryImpl
-    ) : BMIRepository
+        impl: ScreenshotRepositoryImpl
+    ) : ScreenshotRepository
 
 }

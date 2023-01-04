@@ -72,7 +72,6 @@
         style="@style/MetricsLabelTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/metrics_mar_top"
         android:fontFamily="@font/work_sans"
         android:text="@string/weight_metric"
         app:layout_constraintBottom_toTopOf="@+id/metrics_gl_top"
@@ -112,12 +111,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.42"/>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/metrics_gl_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6"/>
+        app:layout_constraintGuide_percent="0.58" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/metrics_gl_end"
         android:layout_width="wrap_content"

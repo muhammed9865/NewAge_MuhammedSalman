@@ -15,8 +15,8 @@ class ScreenshotSourceImpl @Inject constructor() : ScreenshotSource {
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun saveScreenshot(screenshotRequest: ScreenshotRequest): State<ScreenshotResponse> {
         // Preparing file
-        val fileLocation = screenshotRequest.saveLocation + File.separator
-        val screenshotsDir = File(fileLocation)
+        val screenshotLocation = screenshotRequest.saveLocation + File.separator
+        val screenshotsDir = File(screenshotLocation)
 
         if (!screenshotsDir.exists())
             screenshotsDir.mkdir()
@@ -32,7 +32,7 @@ class ScreenshotSourceImpl @Inject constructor() : ScreenshotSource {
             fo.close()
 
             // Deletes the file after some time
-            deleteImageAfterTime(imageFile)
+            deleteFileAfter(imageFile)
 
             State.Success(
                 data = ScreenshotResponse(
@@ -46,14 +46,21 @@ class ScreenshotSourceImpl @Inject constructor() : ScreenshotSource {
                 message = "Couldn't save Screenshot",
                 throwable = e
             )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            State.Failure(
+                data = null,
+                message = "Unknown error occurred",
+                throwable = e
+            )
         }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun deleteImageAfterTime(file: File) {
+    private fun deleteFileAfter(file: File, delay: Long = DomainConstants.SCREENSHOT_DELETE_DELAY) {
         // Using the GlobalScope to make sure that it's not cancelled when the calling coroutine is cancelled
         GlobalScope.launch(Dispatchers.IO) {
-            delay(DomainConstants.SCREENSHOT_DELETE_DELAY)
+            delay(delay)
             file.delete()
             cancel()
         }

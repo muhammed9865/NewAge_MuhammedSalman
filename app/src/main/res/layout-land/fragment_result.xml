@@ -81,14 +81,15 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bmi_percentage"
-            android:layout_width="357dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
             android:gravity="center"
             android:letterSpacing="0.1"
+            android:maxLength="7"
             android:textColor="@color/white"
             android:textSize="@dimen/bmi_percentage_fracture_size"
-            app:layout_constraintBottom_toTopOf="@+id/view3"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialTextView"
@@ -103,20 +104,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/bmi_percentage"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bmi_name_with_class_tv"
-            android:layout_width="357dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
             android:gravity="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline7"
+            app:layout_constraintBottom_toTopOf="@+id/bmi_range"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
             tools:text="Hello Olivia, you are normal" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -124,17 +127,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
+            app:layout_constraintBottom_toTopOf="@+id/bmi_share_btn"
+            app:layout_constraintGuide_percent="0.6"
+            app:layout_constraintTop_toBottomOf="@+id/bmi_range" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bmi_range"
             style="@style/BMIResultRangesAppearance"
-            android:layout_width="357dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/ponderal_index"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guideline7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/bmi_name_with_class_tv"
+            app:layout_constraintVertical_bias="0.274"
             tools:text="Normal BMI range: 18.5kg/m2 - 25kg/m2" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -142,11 +149,11 @@
             style="@style/BMIResultRangesAppearance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bmi_share_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/bmi_range"
+            app:layout_constraintVertical_bias="0.409"
             tools:text="Ponderal Index: 10.64kg/m3" />
 
         <com.google.android.material.button.MaterialButton
@@ -157,8 +164,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/bmi_rate_btn"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/bmi_percentage"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/guideline7" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bmi_rate_btn"
@@ -177,7 +184,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.59" />
+            app:layout_constraintGuide_percent="0.52" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -187,7 +194,6 @@
         android:layout_height="0dp"
         android:layout_margin="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="6:1"
         app:layout_constraintEnd_toStartOf="@+id/card_max_end"
         app:layout_constraintStart_toStartOf="@+id/card_max_start"
         app:layout_constraintTop_toTopOf="@+id/card_max_height"
@@ -202,6 +208,7 @@
                 android:id="@+id/ad_img"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_margin="3dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -221,25 +228,28 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/ad_body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/ad_event_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ad_event_button"
                 app:layout_constraintStart_toStartOf="@+id/ad_headline"
                 app:layout_constraintTop_toBottomOf="@+id/ad_headline"
                 app:layout_constraintVertical_bias="0.0"
-                tools:text="Hello America" />
+                tools:text="Hello America asdasdasdwqeqwdaD ASDASDWQDDAdASDasdasdasdasdsadasdasdWQDasd" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/ad_event_button"
                 style="@style/BannerAdsButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:text="@string/install"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ad_attribution" />
 
             <com.google.android.gms.ads.nativead.AdChoicesView
                 android:id="@+id/ad_choices"

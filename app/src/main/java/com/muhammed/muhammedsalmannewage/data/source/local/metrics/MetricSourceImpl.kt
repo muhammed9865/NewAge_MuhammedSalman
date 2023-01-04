@@ -1,10 +1,11 @@
 package com.muhammed.muhammedsalmannewage.data.source.local.metrics
 
+import com.muhammed.muhammedsalmannewage.domain.DomainConstants
 import javax.inject.Inject
 
 
 // This class is faking a network call to a server to get metrics.
-class MetricsProviderImpl @Inject constructor(): MetricsProvider {
+class MetricSourceImpl @Inject constructor(): MetricSource {
 
     override suspend fun getWeightsList(): List<Int> = getWeights()
 
@@ -12,11 +13,11 @@ class MetricsProviderImpl @Inject constructor(): MetricsProvider {
 
     override suspend fun getGenderList(): List<String> = getGenders()
 
-    private fun getWeights() = List(size = WEIGHTS_COUNT) { weight ->
+    private fun getWeights() = List(size = DomainConstants.WEIGHTS_COUNT) { weight ->
         weight + 1
     }
 
-    private fun getHeights() = List(size = HEIGHTS_COUNT) { weight ->
+    private fun getHeights() = List(size = DomainConstants.HEIGHTS_COUNT) { weight ->
         weight + 1
     }
 
@@ -25,7 +26,6 @@ class MetricsProviderImpl @Inject constructor(): MetricsProvider {
     )
 
     companion object {
-        private const val WEIGHTS_COUNT = 250
-        private const val HEIGHTS_COUNT = 250
+
     }
 }

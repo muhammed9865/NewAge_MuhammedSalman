@@ -23,17 +23,6 @@ open class CenterLinearLayoutManager : LinearLayoutManager {
 
     private lateinit var recyclerView: RecyclerView
 
-    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
-        // always measure first item, its size determines starting offset
-        // this must be done before super.onLayoutChildren
-        if (childCount == 0 && state.itemCount > 0) {
-            val firstChild = recycler.getViewForPosition(0)
-            measureChildWithMargins(firstChild, 0, 0)
-            recycler.recycleView(firstChild)
-        }
-        super.onLayoutChildren(recycler, state)
-    }
-
     override fun measureChildWithMargins(child: View, widthUsed: Int, heightUsed: Int) {
         val lp = (child.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
         super.measureChildWithMargins(child, widthUsed, heightUsed)
@@ -51,21 +40,16 @@ open class CenterLinearLayoutManager : LinearLayoutManager {
         when (orientation) {
             RecyclerView.HORIZONTAL -> {
                 if (!reverseLayout) {
-                    recyclerView.updatePaddingRelative(start = padding)
-                    recyclerView.updatePaddingRelative(end = padding)
+                    recyclerView.updatePaddingRelative(start = padding, end = padding)
                 } else {
-                    recyclerView.updatePaddingRelative(end = padding)
-                    recyclerView.updatePaddingRelative(start = padding)
+                    recyclerView.updatePaddingRelative(start = padding, end = padding)
                 }
             }
             RecyclerView.VERTICAL -> {
-                //val padding = ((height - child.measuredHeight) / 2).coerceAtLeast(0)
                 if (!reverseLayout) {
                     recyclerView.updatePaddingRelative(top = padding, bottom = padding)
-                    // recyclerView.updatePaddingRelative(bottom = vPadding)
                 } else {
                     recyclerView.updatePaddingRelative(bottom = padding, top = padding)
-                  //  recyclerView.updatePaddingRelative(top = vPadding)
                 }
             }
         }

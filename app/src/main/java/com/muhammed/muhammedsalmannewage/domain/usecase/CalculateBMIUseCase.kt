@@ -41,13 +41,6 @@ class CalculateBMIUseCase @Inject constructor() {
         }
 
         private fun calculateWeightClass(bmi: Float): WeightClass {
-            var weightClass = WeightClass.UNDER
-            for (type in WeightClass.values()) {
-                if (type.inRange(bmi)) {
-                    weightClass = type
-                    break
-                }
-            }
-            return weightClass
+           return WeightClass.from(bmi)
         }
     }

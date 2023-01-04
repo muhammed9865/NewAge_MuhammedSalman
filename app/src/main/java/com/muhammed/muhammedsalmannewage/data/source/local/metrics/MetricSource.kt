@@ -1,6 +1,6 @@
 package com.muhammed.muhammedsalmannewage.data.source.local.metrics
 
-interface MetricsProvider {
+interface MetricSource {
 
     suspend fun getWeightsList(): List<Int>
     suspend fun getHeightsList(): List<Int>

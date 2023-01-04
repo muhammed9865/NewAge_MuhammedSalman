@@ -1,21 +1,21 @@
 package com.muhammed.muhammedsalmannewage.data.repository
 
 import com.muhammed.muhammedsalmannewage.data.mapper.gender.GenderMapper
-import com.muhammed.muhammedsalmannewage.data.source.local.metrics.MetricsProvider
+import com.muhammed.muhammedsalmannewage.data.source.local.metrics.MetricSource
 import com.muhammed.muhammedsalmannewage.domain.model.State
-import com.muhammed.muhammedsalmannewage.domain.model.bmi.MetricsLists
+import com.muhammed.muhammedsalmannewage.domain.model.metric.MetricsLists
 import com.muhammed.muhammedsalmannewage.domain.repository.MetricRepository
 import javax.inject.Inject
 
 class MetricRepositoryImpl @Inject constructor(
-    private val metricsProvider: MetricsProvider,
+    private val metricSource: MetricSource,
 ) : MetricRepository {
 
     override suspend fun getMetricsLists(): State<MetricsLists> {
         // Provide lists from data source
-        val weights = metricsProvider.getWeightsList()
-        val heights = metricsProvider.getHeightsList()
-        val genders = metricsProvider.getGenderList()
+        val weights = metricSource.getWeightsList()
+        val heights = metricSource.getHeightsList()
+        val genders = metricSource.getGenderList()
 
         // Map genders to domain layer
         val gendersMapped = genders.map {

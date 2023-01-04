@@ -54,7 +54,7 @@ class ResultViewModel @Inject constructor(
             )
             // If the screenshot is saved, construct an Intent to share it.
             if (saveResponse.isSuccessful()) {
-                val uri = MainFileProvider.getUriOForLocation(
+                val uri = MainFileProvider.getUriForLocation(
                     context = view.context,
                     location = saveResponse.data!!.screenshotPath
                 )

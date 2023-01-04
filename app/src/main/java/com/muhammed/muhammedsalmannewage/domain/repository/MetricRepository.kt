@@ -1,7 +1,7 @@
 package com.muhammed.muhammedsalmannewage.domain.repository
 
 import com.muhammed.muhammedsalmannewage.domain.model.State
-import com.muhammed.muhammedsalmannewage.domain.model.bmi.MetricsLists
+import com.muhammed.muhammedsalmannewage.domain.model.metric.MetricsLists
 
 interface MetricRepository {
 

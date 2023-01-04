@@ -1,7 +1,7 @@
 package com.muhammed.muhammedsalmannewage.di
 
-import com.muhammed.muhammedsalmannewage.data.source.local.metrics.MetricsProvider
-import com.muhammed.muhammedsalmannewage.data.source.local.metrics.MetricsProviderImpl
+import com.muhammed.muhammedsalmannewage.data.source.local.metrics.MetricSource
+import com.muhammed.muhammedsalmannewage.data.source.local.metrics.MetricSourceImpl
 import com.muhammed.muhammedsalmannewage.data.source.local.sceenshot.ScreenshotSource
 import com.muhammed.muhammedsalmannewage.data.source.local.sceenshot.ScreenshotSourceImpl
 import dagger.Binds
@@ -14,7 +14,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataModule {
 
     @Binds
-    abstract fun bindMetricsProvider(impl: MetricsProviderImpl) : MetricsProvider
+    abstract fun bindMetricsProvider(impl: MetricSourceImpl) : MetricSource
 
     @Binds
     abstract fun bindScreenshotSource(impl: ScreenshotSourceImpl) : ScreenshotSource

@@ -4,12 +4,12 @@ import com.muhammed.muhammedsalmannewage.data.source.local.sceenshot.ScreenshotS
 import com.muhammed.muhammedsalmannewage.domain.model.State
 import com.muhammed.muhammedsalmannewage.domain.model.screenshot.ScreenshotRequest
 import com.muhammed.muhammedsalmannewage.domain.model.screenshot.ScreenshotResponse
-import com.muhammed.muhammedsalmannewage.domain.repository.BMIRepository
+import com.muhammed.muhammedsalmannewage.domain.repository.ScreenshotRepository
 import javax.inject.Inject
 
-class BMIRepositoryImpl @Inject constructor(
+class ScreenshotRepositoryImpl @Inject constructor(
     private val screenshotSource: ScreenshotSource,
-) : BMIRepository {
+) : ScreenshotRepository {
 
     override suspend fun saveScreenshot(screenshotRequest: ScreenshotRequest): State<ScreenshotResponse> {
         return screenshotSource.saveScreenshot(

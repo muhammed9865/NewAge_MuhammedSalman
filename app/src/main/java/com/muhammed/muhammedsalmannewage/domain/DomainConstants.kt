@@ -11,4 +11,8 @@ object DomainConstants {
     const val DEFAULT_SELECTED_HEIGHT = 127
     val DEFAULT_SELECTED_GENDER = Gender.FEMALE
 
+    // Used for the BMI calculator as the number of items in the metrics lists
+    const val WEIGHTS_COUNT = 250
+    const val HEIGHTS_COUNT = 250
+
 }
