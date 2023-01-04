@@ -28,6 +28,7 @@ who have a permission to access this Uri. Sending the Uri provided by FileProvid
 # Project Notes
 - Loading ads using AdLoader doesn't work on Android Studio Emulators but works fine on real devices (Tested)
 - If there isn't an ad available to be displayed, the NativeAdView' visibility is gone (in gallery section)
+- AdChoices appear only when the Ad unit id is a real id not the testing one.
 
 
 # Gallery
