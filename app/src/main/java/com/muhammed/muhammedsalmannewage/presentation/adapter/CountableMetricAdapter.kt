@@ -44,8 +44,6 @@ class CountableMetricAdapter <T: Any> : ListAdapter<T, MetricViewHolder<T>>(Coun
 
     fun getPositionAndHighlight(item: T) : Int {
         val itemPosition = currentList.indexOf(item)
-       // highlightItem(itemPosition)
-        selectedItemPosition = itemPosition
         return itemPosition
     }
 

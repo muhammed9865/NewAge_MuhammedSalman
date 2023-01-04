@@ -147,7 +147,7 @@ class ResultViewModel @Inject constructor(
 
     fun onBMIResult(name: String?, bmiResult: BMIResult) {
         setState(
-            stateAccess.copy(name = name ?: "there", bmiResult = bmiResult)
+            stateAccess.copy(name = if (name.isNullOrEmpty()) "there" else name, bmiResult = bmiResult)
         )
     }
 

@@ -1,6 +1,7 @@
 package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.calculator
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -69,12 +70,29 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
         setUpRecyclerViews()
         observeStateChange()
 
-        // Scroll to items and highlight on config change
-        val state = viewModel.state.value
-        scrollToItem(binding.heightSelector, heightAdapter, state.selectedHeight)
-        scrollToItem(binding.weightSelector, weightAdapter, state.selectedWeight)
-        scrollToItem(binding.genderSelector, genderAdapter, state.selectedGender)
+        // Scrolling to selected metrics on Configuration Change
+        with(viewModel.state.value) {
+            if (weightsList.isNotEmpty())
+                scrollToItem(
+                    binding = binding.weightSelector,
+                    adapter = weightAdapter,
+                    item = selectedWeight,
+                )
 
+            if (heightsList.isNotEmpty())
+                scrollToItem(
+                    binding = binding.heightSelector,
+                    adapter = heightAdapter,
+                    item = selectedHeight,
+                )
+
+            if (genderList.isNotEmpty())
+                scrollToItem(
+                    binding = binding.genderSelector,
+                    adapter = genderAdapter,
+                    item = selectedGender,
+                )
+        }
         // To get the name on any configuration change
         binding.nameInputField.setText(mainViewModel.name)
 
@@ -102,11 +120,9 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
 
     }
 
-
     private fun observeStateChange() {
         viewModel.state.onEach { state ->
             with(state) {
-
                 weightAdapter.submitList(weightsList)
                 heightAdapter.submitList(heightsList)
                 genderAdapter.submitList(genderList)
@@ -147,9 +163,18 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
     }
 
 
-    private fun <T : Any> scrollToItem(binding: MetricSelectorBinding, adapter: CountableMetricAdapter<T>, item: T) {
-        val itemPosition = adapter.getPositionAndHighlight(item)
-        binding.metricRv.smoothScrollToPosition(itemPosition)
+    private fun <T : Any> scrollToItem(
+        binding: MetricSelectorBinding,
+        adapter: CountableMetricAdapter<T>,
+        item: T,
+    ) {
+        try {
+            val itemPosition = adapter.getPositionAndHighlight(item)
+            Log.d(TAG, "scrollToItem: $itemPosition")
+            binding.metricRv.smoothScrollToPosition(itemPosition.coerceAtLeast(0))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun onBMIResultAvailable(bmiResult: BMIResult) {
@@ -162,16 +187,26 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
         initRecyclerViewWithBinding(
             binding.weightSelector,
             weightAdapter,
+            onInitDone = {
+
+            },
         ) { weight ->
             viewModel.setWeight(weight)
         }
+
         initRecyclerViewWithBinding(
             binding.heightSelector, heightAdapter,
+            onInitDone = {
+
+            }
         ) { height ->
             viewModel.setHeight(height)
         }
         initRecyclerViewWithBinding(
             binding.genderSelector, genderAdapter,
+            onInitDone = {
+
+            }
         ) { gender ->
             viewModel.setGender(gender)
         }
@@ -181,6 +216,7 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
     private fun <T : Any> initRecyclerViewWithBinding(
         binding: MetricSelectorBinding,
         cAdapter: CountableMetricAdapter<T>,
+        onInitDone: () -> Unit = {} ,
         onItem: (T) -> Unit,
     ) {
         // Setting up recycler view with adapter and adding a SnapEffect for scrolling
@@ -190,6 +226,8 @@ class CalculatorFragment : ViewBindingFragment<FragmentCalculatorBinding>() {
                 CenterLinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             clipToPadding = false
         }
+
+        onInitDone()
 
         // SnapHelper adds a special effect to the RecyclerView
         val snapHelper = PagerSnapHelper()

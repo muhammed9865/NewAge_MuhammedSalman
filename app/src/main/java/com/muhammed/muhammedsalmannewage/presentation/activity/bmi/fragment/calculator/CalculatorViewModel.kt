@@ -39,7 +39,7 @@ class CalculatorViewModel @Inject constructor(
                     stateAccess.copy(
                         weightsList = lists.weightList,
                         heightsList = lists.heightList,
-                        genderList = lists.genderList
+                        genderList = lists.genderList,
                     )
                 )
             }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PrimaryInputFieldLayout">
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxStrokeWidth">0.7dp</item>
+        <item name="android:hint">@string/name_placeholder</item>
+        <item name="hintTextColor">@color/blue</item>
+        <item name="boxStrokeColor">@color/primary_input_field_color_state</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/default_corner_size</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/default_corner_size</item>
+        <item name="boxCornerRadiusTopStart">@dimen/default_corner_size</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/default_corner_size</item>
+    </style>
+</resources>

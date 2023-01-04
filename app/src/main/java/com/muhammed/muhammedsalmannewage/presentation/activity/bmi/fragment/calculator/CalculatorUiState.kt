@@ -19,6 +19,6 @@ data class CalculatorUiState(
     val bmiResult: BMIResult? = null,
     val weightsList: List<Int> = emptyList(),
     val heightsList: List<Int> = emptyList(),
-    val genderList: List<Gender> = emptyList()
+    val genderList: List<Gender> = emptyList(),
 )
 
