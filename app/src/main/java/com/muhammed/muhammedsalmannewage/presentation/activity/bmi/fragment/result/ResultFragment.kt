@@ -2,6 +2,7 @@ package com.muhammed.muhammedsalmannewage.presentation.activity.bmi.fragment.res
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +36,7 @@ import com.muhammed.muhammedsalmannewage.presentation.core.common.fragment.ViewB
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.io.ByteArrayOutputStream
 
 private const val TAG = "ResultFragment"
 
@@ -81,6 +84,10 @@ class ResultFragment : ViewBindingFragment<FragmentResultBinding>() {
                     packageName = requireContext().packageName
                 )
             }
+            // تعديلات
+            val bitmap = imgView?.drawable?.toBitmap()
+            val bytes = ByteArrayOutputStream()
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
 
             bmiShareBtn.setOnClickListener {
                 viewModel.takeScreenshot(

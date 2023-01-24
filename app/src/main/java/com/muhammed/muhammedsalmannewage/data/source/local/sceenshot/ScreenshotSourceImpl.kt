@@ -21,7 +21,8 @@ class ScreenshotSourceImpl @Inject constructor() : ScreenshotSource {
         if (!screenshotsDir.exists())
             screenshotsDir.mkdir()
 
-        val imageFile = File.createTempFile(System.currentTimeMillis().toString(),
+        val imageFile = File.createTempFile(
+            System.currentTimeMillis().toString(),
             SCREENSHOT_NAME,
             screenshotsDir)
 

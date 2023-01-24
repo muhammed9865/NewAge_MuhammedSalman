@@ -151,6 +151,10 @@
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ponderal_index" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bmi_rate_btn"
